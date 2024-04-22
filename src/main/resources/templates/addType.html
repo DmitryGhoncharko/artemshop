@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить тип товара</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="/admin/home">Каталог товаров</a>
+    <nav class="nav justify-content-center">
+      <a class="nav-link" href="/admin/addType">Добавить тип товара</a>
+      <a class="nav-link" href="/admin/typeList">Cписок типов товаров</a>
+      <a class="nav-link" href="/admin/addLight">Добавить товар</a>
+      <a class="nav-link" href="/admin/lightList">Список  товаров</a>
+      <a class="nav-link" href="/admin/show">Посмотреть заявки</a>
+      <a class="nav-link" href="/logout">Выйти</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h2 class="text-center mt-4 mb-4">Добавить тип товара</h2>
+  <form action="/admin/addType" method="post">
+    <div class="form-group">
+      <label for="lightTypeName">Название типа товара</label>
+      <input type="text" class="form-control" id="lightTypeName" name="lightTypeName" placeholder="Введите название" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+  </form>
+</div>
+
+<footer>
+  <div class="container">
+    <p>Контактная информация:  +375447860021</p>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

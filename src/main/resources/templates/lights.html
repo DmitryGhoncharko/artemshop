@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Товары</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .gallery img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="/client/home">Каталог товаров</a>
+    <nav class="nav justify-content-center">
+      <a class="nav-link" href="/client/catalog">Каталог</a>
+      <a class="nav-link" href="/client/about">О компании</a>
+      <a class="nav-link" href="/client/contacts">Контакты</a>
+      <a class="nav-link" href="/logout">Выйти</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="text-center mb-4">Список товаров</h1>
+  <div class="row">
+    <div th:each="light : ${lights}" class="col-md-4 mb-4">
+      <div class="card">
+        <img th:src="${light.lightImageLink}" class="card-img-top" alt="Светильник">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${light.lightName}"></h5>
+          <a th:href="@{'/client/light/' + ${light.id}}" class="btn btn-primary">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <p>Контактная информация:  +375447860021</p>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
