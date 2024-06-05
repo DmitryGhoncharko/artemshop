@@ -35,6 +35,7 @@
       <a class="nav-link" href="/client/catalog">Каталог</a>
       <a class="nav-link" href="/client/about">О компании</a>
       <a class="nav-link" href="/client/contacts">Контакты</a>
+      <a class="nav-link" href="/client/cabinet">Личный кабинет</a>
       <a class="nav-link" href="/logout">Выйти</a>
     </nav>
   </div>
@@ -42,8 +43,9 @@
 
 <div class="container">
   <h1 class="text-center mb-4">Список товаров</h1>
-  <div class="row">
-    <div th:each="light : ${lights}" class="col-md-4 mb-4">
+  <input type="text" id="searchInput" class="form-control mb-3" placeholder="Поиск по товарам...">
+  <div class="row" id="productList">
+    <div th:each="light : ${lights}" class="col-md-4 mb-4 product-item">
       <div class="card">
         <img th:src="${light.lightImageLink}" class="card-img-top" alt="Светильник">
         <div class="card-body">
@@ -56,12 +58,27 @@
 </div>
 <footer>
   <div class="container">
-    <p>Контактная информация:  +375447860021</p>
+    <p>Контактная информация: +375447860021</p>
   </div>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+    var filter = this.value.toLowerCase();
+    var items = document.querySelectorAll('.product-item');
+
+    items.forEach(function(item) {
+      var text = item.querySelector('.card-title').textContent.toLowerCase();
+      if (text.includes(filter)) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+</script>
 </body>
 </html>

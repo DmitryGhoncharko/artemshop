@@ -7,9 +7,11 @@ import com.example.shopshoesspring.entity.UserLight;
 import com.example.shopshoesspring.repository.LightRepository;
 import com.example.shopshoesspring.repository.LightTypeRepository;
 import com.example.shopshoesspring.repository.UserLightRepository;
+import com.example.shopshoesspring.repository.UserRepository;
 import com.example.shopshoesspring.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,8 @@ public class ClientController {
     private final LightRepository lightRepository;
     private final LightTypeRepository lightTypeRepository;
     private final UserLightRepository userLightRepository;
-
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @GetMapping("/home")
     public String homePage() {
         return "сhome";
@@ -42,7 +45,34 @@ public class ClientController {
 
         return "catalog";
     }
-
+    @PostMapping("/updateUser")
+    public String updateUser(@RequestParam("userLogin") String login, @RequestParam("userPassword") String password, Model model, Principal principal) {
+        String loginUser = principal.getName();
+        Optional<User> userOptional = userService.findUserByUserLogin(loginUser);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUserLogin(login);
+            String encryptedPassword = passwordEncoder.encode(password);
+            user.setUserPassword(encryptedPassword);
+            userRepository.save(user);
+            model.addAttribute("message", "Данные пользователя успешно обновлены");
+        } else {
+            model.addAttribute("message", "Ошибка обновления данных пользователя");
+        }
+        Optional<User> userOptional1 = userService.findUserByUserLogin(loginUser);
+        model.addAttribute("user", userOptional1.get());
+        return "cabinet";
+    }
+    @GetMapping("/cabinet")
+    public String cabinetPage(Model model, Principal principal) {
+        String login = principal.getName();
+        Optional<User> userOptional = userService.findUserByUserLogin(login);
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+            return "cabinet";
+        }
+        return "cabinet";
+    }
     @GetMapping("/category/{id}")
     public String showCategoryDetails(@PathVariable("id") Long id, Model model) {
         LightType category = lightTypeRepository.findById(id).orElse(null);
