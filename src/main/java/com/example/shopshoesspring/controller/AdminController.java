@@ -1,12 +1,15 @@
 package com.example.shopshoesspring.controller;
 
+import com.example.shopshoesspring.entity.Count;
 import com.example.shopshoesspring.entity.Light;
 import com.example.shopshoesspring.entity.LightType;
 import com.example.shopshoesspring.entity.UserLight;
+import com.example.shopshoesspring.repository.CountRepository;
 import com.example.shopshoesspring.repository.LightRepository;
 import com.example.shopshoesspring.repository.LightTypeRepository;
 import com.example.shopshoesspring.repository.UserLightRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -32,6 +35,7 @@ public class AdminController {
     private final LightTypeRepository lightTypeRepository;
     private final LightRepository lightRepository;
     private final UserLightRepository userLightRepository;
+    private final CountRepository countRepository;
     @GetMapping("/home")
     public String homePage() {
         return "ahome";
@@ -258,14 +262,17 @@ public class AdminController {
     }
 
     @GetMapping("/show")
+    @Transactional
     public String infoPage(Model model){
-        List<UserLight> userLights = userLightRepository.findByUserLightCompletedFalse();
-        model.addAttribute("userLights",userLights);
+
+        List<Count> countList = countRepository.findAll();
+
+        model.addAttribute("userLights",countList);
         return "info";
     }
     @GetMapping("/сhangeStatus/{id}")
     public String updateStatus(@PathVariable Long id) {
-        userLightRepository.deleteById(id);
+        countRepository.deleteById(id);
         return "redirect:/admin/show";
     }
 }

@@ -47,19 +47,21 @@
             <th scope="col">Номер телефона</th>
             <th scope="col">Сообщение</th>
             <th scope="col">Дата</th>
+            <th scope="col">Колличество</th>
             <th scope="col">Статус</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="userLight, iterStat : ${userLights}">
+        <tr th:each="data, iterStat : ${userLights}">
             <td th:text="${iterStat.count}"></td>
-            <td th:text="${userLight.user.userLogin}"></td>
-            <td th:text="${userLight.light.lightName}"></td>
-            <td th:text="${userLight.phone}"></td>
-            <td th:text="${userLight.message}"></td>
-            <td th:text="${userLight.date}"></td>
+            <td th:text="${data.userLight.user.userLogin}"></td>
+            <td th:text="${data.userLight.light.lightName}"></td>
+            <td th:text="${data.userLight.phone}"></td>
+            <td th:text="${data.userLight.message}"></td>
+            <td th:text="${data.userLight.date}"></td>
+            <td th:text="${data.val}"></td>
             <td>
-                <a th:href="@{'/admin/сhangeStatus/' + ${userLight.id}}" class="btn btn-danger btn-sm">Удалить</a>
+                <a th:href="@{'/admin/сhangeStatus/' + ${data.id}}" class="btn btn-danger btn-sm">Удалить</a>
             </td>
         </tr>
         </tbody>

@@ -1,13 +1,7 @@
 package com.example.shopshoesspring.controller;
 
-import com.example.shopshoesspring.entity.Light;
-import com.example.shopshoesspring.entity.LightType;
-import com.example.shopshoesspring.entity.User;
-import com.example.shopshoesspring.entity.UserLight;
-import com.example.shopshoesspring.repository.LightRepository;
-import com.example.shopshoesspring.repository.LightTypeRepository;
-import com.example.shopshoesspring.repository.UserLightRepository;
-import com.example.shopshoesspring.repository.UserRepository;
+import com.example.shopshoesspring.entity.*;
+import com.example.shopshoesspring.repository.*;
 import com.example.shopshoesspring.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +27,7 @@ public class ClientController {
     private final UserLightRepository userLightRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CountRepository countRepository;
     @GetMapping("/home")
     public String homePage() {
         return "сhome";
@@ -99,6 +94,7 @@ public class ClientController {
         String mobileNumber = request.getParameter("mobileNumber");
         String message = request.getParameter("message");
         Long lightId = Long.valueOf(request.getParameter("lightId"));
+        Integer count = Integer.valueOf(request.getParameter("cn"));
         String login = principal.getName();
         Optional<User> userOptional = userService.findUserByUserLogin(login);
         Optional<Light> lightOptional = lightRepository.findById(lightId);
@@ -113,8 +109,11 @@ public class ClientController {
                 .message(message)
                 .date(new Date(new java.util.Date().getTime()))
                 .build();
-        userLightRepository.save(userLight);
-
+        UserLight userLight1 = userLightRepository.save(userLight);
+        Count count1 = new Count();
+        count1.setVal(count);
+        count1.setUserLight(userLight1);
+        countRepository.save(count1);
         return "redirect:/client/sc";
     }
     @GetMapping("/sc")
